@@ -1,0 +1,9 @@
+{
+  "name": "zerux-afk-bot",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Minecraft AFK client for ZERUX AFK BOT",
+  "dependencies": {
+    "mineflayer": "^4.23.0"
+  }
+}

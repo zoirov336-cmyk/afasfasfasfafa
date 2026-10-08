@@ -1,0 +1,5 @@
+.env
+.git
+afk.db
+node_modules
+__pycache__
