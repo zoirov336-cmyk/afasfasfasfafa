@@ -17,7 +17,9 @@ try {
     auth: 'offline',
     hideErrors: true,
     checkTimeoutInterval: 120000, // lag bo'lsa ham uzilib qolmasligi uchun
+    physicsEnabled: false,        // bot tushmaydi/yurmaydi: "Invalid move player packet" dan saqlaydi
   });
+  bot.physicsEnabled = false;
 } catch (e) {
   emit('error', { message: String(e && e.message) });
   process.exit(1);
@@ -47,16 +49,13 @@ bot.on('spawn', () => {
   spawned = true;
   clearTimeout(watchdog);
   emit('online');
-  // Anti-AFK: sekin-asta atrofga qarab, ba'zan sakrab turadi
+  // Anti-AFK: harakatsiz (fizikasiz), faqat qo'l silkitish va hotbar almashtirish
   setInterval(() => {
-    try { bot.look(Math.random() * Math.PI * 2, 0, true); } catch (_) {}
+    try { bot.swingArm('right'); } catch (_) {}
   }, 30000);
   setInterval(() => {
-    try {
-      bot.setControlState('jump', true);
-      setTimeout(() => { try { bot.setControlState('jump', false); } catch (_) {} }, 300);
-    } catch (_) {}
-  }, 90000);
+    try { bot.setQuickBarSlot(((bot.quickBarSlot || 0) + 1) % 9); } catch (_) {}
+  }, 60000);
 });
 
 bot.on('kicked', (reason) => emit('kicked', { reason: String(plain(reason)).slice(0, 200) }));
